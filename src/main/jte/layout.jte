@@ -21,7 +21,7 @@
     ${content}
 </main>
 <footer>
-    <p>&copy; 2025 Shoe Store. All rights reserved.</p>
+    <p>&copy; 2025 Best Shoes. All rights reserved.</p>
 </footer>
 </body>
 </html>

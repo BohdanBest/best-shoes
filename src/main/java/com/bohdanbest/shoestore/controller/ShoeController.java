@@ -21,7 +21,7 @@ public class ShoeController {
 
     @GetMapping("/")
     public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("pages/index");
         modelAndView.addObject("shoes", shoes);
         modelAndView.addObject("title", "Shoe Store - Home");
         return modelAndView;
@@ -38,7 +38,7 @@ public class ShoeController {
 
     @GetMapping("/about")
     public ModelAndView about() {
-        ModelAndView modelAndView = new ModelAndView("about");
+        ModelAndView modelAndView = new ModelAndView("pages/about");
         modelAndView.addObject("title", "About Us");
         return modelAndView;
     }
