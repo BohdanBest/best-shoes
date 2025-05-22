@@ -7,15 +7,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css">
 </head>
 <body>
 <header>
-    <h1>Best-shoes</h1>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-    </nav>
+    <div class="header-content">
+        <a href="/" class="logo-link">
+            <h1>👟 Best-shoes</h1></a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+        </nav>
+    </div>
 </header>
 <main>
     ${content}
