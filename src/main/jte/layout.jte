@@ -17,6 +17,7 @@
         <nav>
             <a href="/">Home</a>
             <a href="/about">About</a>
+            <a href="/register">Sign up</a>
         </nav>
     </div>
 </header>

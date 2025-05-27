@@ -23,15 +23,12 @@ public class ShoeController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("pages/index");
 
-        // Отримуємо всі ShoeItem
         Iterable<ShoeItem> shoeItemsIterable = shoeItemRepository.findAll();
 
-        // Конвертуємо в DTO
         List<ShoeItemDTO> shoeItems = StreamSupport.stream(shoeItemsIterable.spliterator(), false)
                 .map(this::convertToDTO)
-                .collect(Collectors.toList());
+                .toList();
 
-        // Розділяємо на два списки
         List<ShoeItemDTO> inStockShoeItems = shoeItems.stream()
                 .filter(ShoeItemDTO::isInStock)
                 .collect(Collectors.toList());
