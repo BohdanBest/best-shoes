@@ -2,6 +2,7 @@
 @param String title
 @param LoginDTO loginDTO
 @param String error
+@param String message
 
 @template.layout(
 title = title,
@@ -10,6 +11,9 @@ content = @`
     <div class="login-form form">
         @if(error != null)
             <p class="error">${error}</p>
+        @endif
+        @if(message != null)
+            <p class="success">${message}</p>
         @endif
         <form action="/login" method="post">
             <div class="form-group">
