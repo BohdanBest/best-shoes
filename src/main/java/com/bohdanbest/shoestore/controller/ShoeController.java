@@ -365,6 +365,31 @@ public class ShoeController {
         }
     }
 
+    @PostMapping("/api/shoe-item/delete")
+    public RedirectView deleteShoeItem(@RequestParam Long id) {
+        try {
+            LOGGER.info("Attempting to delete shoe item ID: {} by user: {}", id, authFacade.getUsername());
+
+            if (!authFacade.isAuthenticated() || !authFacade.isAdmin()) {
+                LOGGER.warn("Unauthorized deletion attempt for ID: {} by user: {}", id, authFacade.getUsername());
+                return new RedirectView("/?error=Unauthorized access");
+            }
+
+            Optional<ShoeItem> shoeItemOptional = shoeItemRepository.findById(id);
+            if (shoeItemOptional.isEmpty()) {
+                LOGGER.warn("Shoe item not found for ID: {}", id);
+                return new RedirectView("/?error=Shoe item not found");
+            }
+
+            shoeItemRepository.deleteById(id);
+            LOGGER.info("Shoe item ID: {} deleted successfully", id);
+            return new RedirectView("/?success=Shoe item deleted successfully");
+        } catch (Exception e) {
+            LOGGER.error("Error deleting shoe item ID: {}: {}", id, e.getMessage(), e);
+            return new RedirectView("/?error=Failed to delete shoe item");
+        }
+    }
+
     private String generateSkuCode(String modelName, String size, String color) {
         String base = (modelName + "-" + size + "-" + color).toUpperCase().replaceAll("[^A-Z0-9]", "");
         return base.substring(0, Math.min(base.length(), 10)) + "-" + UUID.randomUUID().toString().substring(0, 8);

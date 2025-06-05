@@ -658,3 +658,64 @@ textarea {
     margin-top: 10px;
     cursor: pointer;
 }
+.edit-button:hover {
+    background-color: #940a0a;
+}
+
+.btn.confirm {
+    background-color: #f44336;
+    color: white;
+}
+.btn.cancel {
+    background-color: #ccc;
+    color: black;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close:hover {
+    color: black;
+}
+.delete-btn {
+    background-color: #b70000;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.delete-btn:hover {
+    background-color: #b70000;
+}
+
+.actions{
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    margin-top: 20px;
+}

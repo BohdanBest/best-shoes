@@ -38,7 +38,12 @@ content = @`
                         <div class="stock-status">
                             <span class="in-stock">✅ In Stock</span>
                         </div>
-                        <a href="/shoe?id=${shoe.getId()}" class="view-details-btn">View Details</a>
+                        <div class="actions">
+                            <a href="/shoe?id=${shoe.getId()}" class="view-details-btn">View Details</a>
+                            @if(authFacade.isAuthenticated() && authFacade.isAdmin())
+                                <button class="delete-btn" onclick="openDeleteModal('${shoe.getId()}', '${shoe.getShoeModelName()}')">Delete</button>
+                            @endif
+                        </div>
                     </div>
                 </div>
             @endfor
@@ -70,11 +75,29 @@ content = @`
                         <div class="stock-status">
                             <span class="out-of-stock">❌ Out of Stock</span>
                         </div>
+                       <div class="actions">
                         <a href="/shoe?id=${shoe.getId()}" class="view-details-btn">View Details</a>
+
+                        @if(authFacade.isAuthenticated() && authFacade.isAdmin())
+                            <button class="delete-btn" onclick="openDeleteModal('${shoe.getId()}', '${shoe.getShoeModelName()}')">Delete</button>
+                        @endif
+                       </div>
                     </div>
                 </div>
             @endfor
         @endif
+    </div>
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to delete <span id="shoeName"></span>?</p>
+            <form id="deleteForm" action="/api/shoe-item/delete" method="POST">
+                <input type="hidden" name="id" id="deleteShoeId">
+                <button type="submit" class="btn confirm">Yes, Delete</button>
+                <button type="button" class="btn cancel" onclick="closeDeleteModal()">Cancel</button>
+            </form>
+        </div>
     </div>
     @if(success != null)
         <div id="toast" class="toast">${success}</div>
@@ -91,6 +114,28 @@ content = @`
             });
         </script>
     @endif
+    <script>
+        function openDeleteModal(id, name) {
+            document.getElementById('deleteModal').style.display = 'block';
+            document.getElementById('shoeName').textContent = name;
+            document.getElementById('deleteShoeId').value = id;
+        }
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            document.getElementById('shoeName').textContent = '';
+            document.getElementById('deleteShoeId').value = '';
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 500);
+                }, 3000);
+            }
+        });
+    </script>
 
     @template.partials.promo()
 `
