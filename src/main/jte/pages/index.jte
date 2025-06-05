@@ -6,6 +6,7 @@
 @param AuthenticationInfoFacade authFacade
 @param String success
 @param String sort
+@param String query
 
 @template.layout(
 title = title,
@@ -13,8 +14,13 @@ authFacade = authFacade,
 content = @`
     <h2>Welcome to our Shoe Store!</h2>
     <p>Choose from our wide selection of quality footwear</p>
-
-    <div class="sort-container">
+    <div class="filter-container">
+        <form id="searchForm" action="/" method="GET">
+            <input type="text" id="query" name="query" placeholder="Search by model name..." value="${query != null ? query : ""}">
+            @if(sort != null)
+                <input type="hidden" name="sort" value="${sort}">
+            @endif
+        </form>
         <form id="sortForm" action="/" method="GET">
             <label for="sort">Sort by:</label>
             <select id="sort" name="sort" onchange="this.form.submit()">
@@ -22,6 +28,9 @@ content = @`
                 <option value="price_asc" selected="${sort != null && sort.equals("price_asc")}">Price: Low to High</option>
                 <option value="price_desc" selected="${sort != null && sort.equals("price_desc")}">Price: High to Low</option>
             </select>
+            @if(query != null)
+                <input type="hidden" name="query" value="${query}">
+            @endif
         </form>
     </div>
     <h3>In Stock</h3>

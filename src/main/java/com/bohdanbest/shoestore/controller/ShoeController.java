@@ -44,24 +44,44 @@ public class ShoeController {
     private AuthenticationInfoFacade authFacade;
 
     @GetMapping("/")
-    public ModelAndView home(@RequestParam(required = false) String success, @RequestParam(required = false) String sort) {
+    public ModelAndView home(
+            @RequestParam(required = false) String success,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String query
+    ) {
         ModelAndView modelAndView = new ModelAndView("pages/index");
 
         List<ShoeItem> inStockItems;
         List<ShoeItem> outOfStockItems;
 
-        if ("price_asc".equals(sort)) {
-            inStockItems = shoeItemRepository.findAllInStockByOrderByPriceAsc();
-            outOfStockItems = shoeItemRepository.findAllOutOfStockByOrderByPriceAsc();
-        } else if ("price_desc".equals(sort)) {
-            inStockItems = shoeItemRepository.findAllInStockByOrderByPriceDesc();
-            outOfStockItems = shoeItemRepository.findAllOutOfStockByOrderByPriceDesc();
+        if (query != null && !query.trim().isEmpty()) {
+            String trimmedQuery = query.trim();
+            LOGGER.info("Search query: {}, Sort: {}", trimmedQuery, sort);
+            if ("price_asc".equals(sort)) {
+                inStockItems = shoeItemRepository.findInStockByModelNameContainingOrderByPriceAsc(trimmedQuery);
+                outOfStockItems = shoeItemRepository.findOutOfStockByModelNameContainingOrderByPriceAsc(trimmedQuery);
+            } else if ("price_desc".equals(sort)) {
+                inStockItems = shoeItemRepository.findInStockByModelNameContainingOrderByPriceDesc(trimmedQuery);
+                outOfStockItems = shoeItemRepository.findOutOfStockByModelNameContainingOrderByPriceDesc(trimmedQuery);
+            } else {
+                inStockItems = shoeItemRepository.findInStockByModelNameContaining(trimmedQuery);
+                outOfStockItems = shoeItemRepository.findOutOfStockByModelNameContaining(trimmedQuery);
+            }
         } else {
-            inStockItems = shoeItemRepository.findAllInStock();
-            outOfStockItems = shoeItemRepository.findAllOutOfStock();
+            LOGGER.info("No search query, Sort: {}", sort);
+            if ("price_asc".equals(sort)) {
+                inStockItems = shoeItemRepository.findAllInStockByOrderByPriceAsc();
+                outOfStockItems = shoeItemRepository.findAllOutOfStockByOrderByPriceAsc();
+            } else if ("price_desc".equals(sort)) {
+                inStockItems = shoeItemRepository.findAllInStockByOrderByPriceDesc();
+                outOfStockItems = shoeItemRepository.findAllOutOfStockByOrderByPriceDesc();
+            } else {
+                inStockItems = shoeItemRepository.findAllInStock();
+                outOfStockItems = shoeItemRepository.findAllOutOfStock();
+            }
         }
 
-        LOGGER.info("Sort parameter: {}, InStock count: {}, OutOfStock count: {}", sort, inStockItems.size(), outOfStockItems.size());
+        LOGGER.info("InStock count: {}, OutOfStock count: {}", inStockItems.size(), outOfStockItems.size());
 
         List<ShoeItemDTO> inStockShoeItems = inStockItems.stream()
                 .map(this::convertToDTO)
@@ -76,6 +96,7 @@ public class ShoeController {
         modelAndView.addObject("title", "Shoe Store - Home");
         modelAndView.addObject("authFacade", authFacade);
         modelAndView.addObject("sort", sort);
+        modelAndView.addObject("query", query);
         if (success != null) {
             modelAndView.addObject("success", success);
         }
