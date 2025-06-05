@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 public class ShoeController {
@@ -43,23 +44,38 @@ public class ShoeController {
     private AuthenticationInfoFacade authFacade;
 
     @GetMapping("/")
-    public ModelAndView home(@RequestParam(required = false) String success) {
+    public ModelAndView home(@RequestParam(required = false) String success, @RequestParam(required = false) String sort) {
         ModelAndView modelAndView = new ModelAndView("pages/index");
 
-        List<ShoeItemDTO> inStockShoeItems = shoeItemRepository.findAllInStock()
-                .stream()
-                .map(this::convertToDTO)
-                .toList();
+        List<ShoeItem> inStockItems;
+        List<ShoeItem> outOfStockItems;
 
-        List<ShoeItemDTO> outOfStockShoeItems = shoeItemRepository.findAllOutOfStock()
-                .stream()
+        if ("price_asc".equals(sort)) {
+            inStockItems = shoeItemRepository.findAllInStockByOrderByPriceAsc();
+            outOfStockItems = shoeItemRepository.findAllOutOfStockByOrderByPriceAsc();
+        } else if ("price_desc".equals(sort)) {
+            inStockItems = shoeItemRepository.findAllInStockByOrderByPriceDesc();
+            outOfStockItems = shoeItemRepository.findAllOutOfStockByOrderByPriceDesc();
+        } else {
+            inStockItems = shoeItemRepository.findAllInStock();
+            outOfStockItems = shoeItemRepository.findAllOutOfStock();
+        }
+
+        LOGGER.info("Sort parameter: {}, InStock count: {}, OutOfStock count: {}", sort, inStockItems.size(), outOfStockItems.size());
+
+        List<ShoeItemDTO> inStockShoeItems = inStockItems.stream()
                 .map(this::convertToDTO)
-                .toList();
+                .collect(Collectors.toList());
+
+        List<ShoeItemDTO> outOfStockShoeItems = outOfStockItems.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
 
         modelAndView.addObject("inStockShoeItems", inStockShoeItems);
         modelAndView.addObject("outOfStockShoeItems", outOfStockShoeItems);
         modelAndView.addObject("title", "Shoe Store - Home");
         modelAndView.addObject("authFacade", authFacade);
+        modelAndView.addObject("sort", sort);
         if (success != null) {
             modelAndView.addObject("success", success);
         }
