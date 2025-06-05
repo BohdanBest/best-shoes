@@ -1,8 +1,11 @@
+@import com.bohdanbest.shoestore.security.AuthenticationInfoFacade
 @param String title
 @param com.bohdanbest.shoestore.model.ShoeItemDTO shoe
+@param AuthenticationInfoFacade authFacade
 
 @template.layout(
 title = title,
+authFacade = authFacade,
 content = @`
     @if(shoe == null)
         <div class="error-message">
@@ -26,6 +29,13 @@ content = @`
                         <p><strong>Category:</strong> <span class="category-name">${shoe.getCategoryName()}</span></p>
                         <p><strong>Size:</strong> <span class="size">${shoe.getSize()}</span></p>
                         <p><strong>Color:</strong> <span class="color">${shoe.getColor()}</span></p>
+                        <p><strong>Description:</strong>
+                            @if(shoe.getDescription() != null && !shoe.getDescription().isEmpty())
+                                ${shoe.getDescription()}
+                            @else
+                                No description available.
+                            @endif
+                        </p>
                         <p class="price-large"><strong>Price:</strong> <span class="price-value">$${shoe.getPrice()}</span></p>
 
                         <div class="availability-section">

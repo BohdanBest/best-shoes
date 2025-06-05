@@ -1,11 +1,14 @@
 @import com.bohdanbest.shoestore.model.LoginDTO
+@import com.bohdanbest.shoestore.security.AuthenticationInfoFacade
 @param String title
 @param LoginDTO loginDTO
 @param String error
 @param String message
+@param AuthenticationInfoFacade authFacade
 
 @template.layout(
 title = title,
+authFacade = authFacade,
 content = @`
     <h2>Login</h2>
     <div class="login-form form">

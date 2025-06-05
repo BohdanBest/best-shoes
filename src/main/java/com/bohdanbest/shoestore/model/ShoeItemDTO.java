@@ -1,22 +1,19 @@
 package com.bohdanbest.shoestore.model;
 
-import java.math.BigDecimal;
-
 public class ShoeItemDTO {
+
     private Long id;
     private String shoeModelName;
     private String brandName;
     private String categoryName;
     private String size;
     private String color;
-    private BigDecimal price;
+    private Double price;
     private String imageUrl;
     private boolean inStock;
+    private String description;
 
-    public ShoeItemDTO() {}
-
-    public ShoeItemDTO(Long id, String shoeModelName, String brandName, String categoryName,
-                       String size, String color, BigDecimal price, String imageUrl, boolean inStock) {
+    public ShoeItemDTO(Long id, String shoeModelName, String brandName, String categoryName, String size, String color, Double price, String imageUrl, boolean inStock, String description) {
         this.id = id;
         this.shoeModelName = shoeModelName;
         this.brandName = brandName;
@@ -26,6 +23,7 @@ public class ShoeItemDTO {
         this.price = price;
         this.imageUrl = imageUrl;
         this.inStock = inStock;
+        this.description = description;
     }
 
     public Long getId() { return id; }
@@ -46,21 +44,15 @@ public class ShoeItemDTO {
     public String getColor() { return color; }
     public void setColor(String color) { this.color = color; }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public Double getPrice() { return price; }
+    public void setPrice(Double price) { this.price = price; }
 
-    public String getImageUrl() {
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            if (imageUrl.startsWith("http") || imageUrl.startsWith("/images/")) {
-                return imageUrl;
-            }
-            return "/images/shoes/" + imageUrl;
-        }
-        return "/images/shoes/placeholder.jpg";
-    }
-
+    public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public boolean isInStock() { return inStock; }
     public void setInStock(boolean inStock) { this.inStock = inStock; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }

@@ -30,7 +30,7 @@ public class ShoeModel {
     private BigDecimal basePrice;
 
     @Column(name = "main_image_url", length = 512)
-    private String mainImageUrl;
+    private String imageUrl;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -49,7 +49,7 @@ public class ShoeModel {
         this.category = category;
         this.description = description;
         this.basePrice = basePrice;
-        this.mainImageUrl = mainImageUrl;
+        this.imageUrl = imageUrl;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -83,8 +83,8 @@ public class ShoeModel {
     public BigDecimal getBasePrice() { return basePrice; }
     public void setBasePrice(BigDecimal basePrice) { this.basePrice = basePrice; }
 
-    public String getMainImageUrl() { return mainImageUrl; }
-    public void setMainImageUrl(String mainImageUrl) { this.mainImageUrl = mainImageUrl; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

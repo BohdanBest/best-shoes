@@ -374,7 +374,6 @@ main > p {
     transform: translateY(-2px);
 }
 
-/* Error message */
 .error-message {
     text-align: center;
     padding: 60px 20px;
@@ -566,23 +565,46 @@ main > p {
     margin-bottom: 10px;
 }
 
+
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.shoe-form {
+    display: grid;
+    gap: 30px;
+}
+
+.form-section {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 .toast {
     position: fixed;
     top: 20px;
     right: 20px;
-    padding: 15px 20px;
-    border-radius: 5px;
+    background-color: #4CAF50;
     color: white;
-    font-weight: bold;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
-
-.toast.success {
-    background-color: #28a745;
-}
-
 .toast.show {
     opacity: 1;
 }

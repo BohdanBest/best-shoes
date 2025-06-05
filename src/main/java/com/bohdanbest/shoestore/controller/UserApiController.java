@@ -3,6 +3,7 @@ package com.bohdanbest.shoestore.controller;
 import com.bohdanbest.shoestore.entity.User;
 import com.bohdanbest.shoestore.model.UserSignUpDTO;
 import com.bohdanbest.shoestore.repository.UserRepository;
+import com.bohdanbest.shoestore.security.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,29 +57,25 @@ public class UserApiController {
         }
 
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
+        Role role = userDTO.getRole().equalsIgnoreCase("ADMIN") ? Role.ADMIN : Role.USER;
 
         User user = new User(
                 userDTO.getUsername(),
                 userDTO.getEmail(),
                 encodedPassword,
-                userDTO.getRole()
+                role
         );
 
         userRepository.save(user);
-        logger.info("User {} saved successfully", userDTO.getUsername());
+        logger.info("User {} saved successfully with role {}", userDTO.getUsername(), role);
 
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 userDTO.getUsername(),
-                null, // Пароль не потрібен
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userDTO.getRole()))
+                null,
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()))
         );
 
-        SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-        SecurityContext context = securityContextHolderStrategy.createEmptyContext();
-        context.setAuthentication(auth);
-        securityContextHolderStrategy.setContext(context);
-
-        logger.info("Authentication set for user: {}, authenticated: {}", userDTO.getUsername(), auth.isAuthenticated());
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header("Location", "/login?success=User registered successfully")

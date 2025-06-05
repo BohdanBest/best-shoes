@@ -1,8 +1,10 @@
 @param String title
 @param com.bohdanbest.shoestore.model.UserSignUpDTO userSignUpDTO
+@param com.bohdanbest.shoestore.security.AuthenticationInfoFacade authFacade
 
 @template.layout(
 title = title,
+authFacade = authFacade,
 content = @`
     <h2>Register</h2>
     <div class="register-form form">
@@ -28,8 +30,8 @@ content = @`
             <div class="form-group">
                 <label for="role">Role:</label>
                 <select id="role" name="role" required>
-                    <option value="USER ${userSignUpDTO != null && userSignUpDTO.getRole() == "USER" ? "selected" : ""}">User</option>
-                    <option value="ADMIN ${userSignUpDTO != null && userSignUpDTO.getRole() == "ADMIN" ? "selected" : ""}">Admin</option>
+                    <option value="USER">User</option>
+                    <option value="ADMIN" >Admin</option>
                 </select>
             </div>
             <button type="submit" class="register-btn btn">Register</button>

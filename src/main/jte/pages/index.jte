@@ -1,10 +1,14 @@
 @import com.bohdanbest.shoestore.model.ShoeItemDTO
+@import com.bohdanbest.shoestore.security.AuthenticationInfoFacade
 @param String title
 @param java.util.List<com.bohdanbest.shoestore.model.ShoeItemDTO> inStockShoeItems
 @param java.util.List<com.bohdanbest.shoestore.model.ShoeItemDTO> outOfStockShoeItems
+@param AuthenticationInfoFacade authFacade
+@param String success
 
 @template.layout(
 title = title,
+authFacade = authFacade,
 content = @`
     <h2>Welcome to our Shoe Store!</h2>
     <p>Choose from our wide selection of quality footwear</p>
@@ -72,6 +76,21 @@ content = @`
             @endfor
         @endif
     </div>
+    @if(success != null)
+        <div id="toast" class="toast">${success}</div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const toast = document.getElementById('toast');
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        setTimeout(() => toast.remove(), 500);
+                    }, 3000);
+                }
+            });
+        </script>
+    @endif
 
     @template.partials.promo()
 `

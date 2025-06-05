@@ -10,5 +10,4 @@ public interface ShoeItemRepository extends CrudRepository<ShoeItem, Long> {
     List<ShoeItem> findByShoeModelId(Long shoeModelId);
     List<ShoeItem> findByQuantityInStockGreaterThan(Integer quantity);
     ShoeItem findBySkuCode(String skuCode);
-
 }

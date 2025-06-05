@@ -25,6 +25,10 @@ public class Category {
         this.name = name;
         this.description = description;
     }
+    public Category(Long id) {
+        this.id = id;
+    }
+
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

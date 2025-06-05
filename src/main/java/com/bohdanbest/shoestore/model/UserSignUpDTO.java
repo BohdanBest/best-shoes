@@ -7,14 +7,8 @@ public class UserSignUpDTO {
     private String confirmPassword;
     private String role;
 
-    public UserSignUpDTO() {}
-
-    public UserSignUpDTO(String username, String email, String password, String confirmPassword, String role) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.confirmPassword = confirmPassword;
-        this.role = role;
+    public UserSignUpDTO() {
+        this.role = "USER"; // Значення за замовчуванням
     }
 
     public String getUsername() { return username; }

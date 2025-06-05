@@ -1,5 +1,6 @@
 package com.bohdanbest.shoestore.entity;
 
+import com.bohdanbest.shoestore.security.Role;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,18 +13,19 @@ public class User {
     @Column(name = "username", nullable = false, unique = true, length = 50)
     private String username;
 
-    @Column(name= "email", nullable = false, unique = true, length = 100)
+    @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
 
     @Column(name = "password", nullable = false, length = 100)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 20)
-    private String role;
+    private Role role;
 
     public User() {}
 
-    public User(String username, String email, String password, String role) {
+    public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -42,6 +44,6 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }

@@ -7,30 +7,34 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "shoe_items")
 public class ShoeItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "shoe_model_id", nullable = false)
     private ShoeModel shoeModel;
 
-    @Column(name = "sku_code", unique = true, nullable = false, length = 100)
-    private String skuCode;
-
-    @Column(name = "size", nullable = false, length = 20)
+    @Column(name = "size", nullable = false)
     private String size;
 
     @Column(name = "color", nullable = false, length = 50)
     private String color;
 
-    @Column(name = "price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal price;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @Column(name = "quantity_in_stock", nullable = false)
-    private Integer quantityInStock = 0;
+    private Integer quantityInStock;
 
-    @Column(name = "additional_image_urls", columnDefinition = "TEXT")
+    @Column(name = "main_image_url")
+    private String imageUrl;
+
+    @Column(name = "sku_code", nullable = false, length = 50)
+    private String skuCode;
+
+    @Column(name = "additional_image_urls")
     private String additionalImageUrls;
 
     @Column(name = "created_at")
@@ -38,19 +42,6 @@ public class ShoeItem {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    public ShoeItem() {}
-
-    public ShoeItem(ShoeModel shoeModel, String skuCode, String size, String color, BigDecimal price, Integer quantityInStock) {
-        this.shoeModel = shoeModel;
-        this.skuCode = skuCode;
-        this.size = size;
-        this.color = color;
-        this.price = price;
-        this.quantityInStock = quantityInStock;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
 
     @PrePersist
     protected void onCreate() {
@@ -69,20 +60,23 @@ public class ShoeItem {
     public ShoeModel getShoeModel() { return shoeModel; }
     public void setShoeModel(ShoeModel shoeModel) { this.shoeModel = shoeModel; }
 
-    public String getSkuCode() { return skuCode; }
-    public void setSkuCode(String skuCode) { this.skuCode = skuCode; }
-
     public String getSize() { return size; }
     public void setSize(String size) { this.size = size; }
 
     public String getColor() { return color; }
     public void setColor(String color) { this.color = color; }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public Double getPrice() { return price; }
+    public void setPrice(Double price) { this.price = price; }
 
     public Integer getQuantityInStock() { return quantityInStock; }
     public void setQuantityInStock(Integer quantityInStock) { this.quantityInStock = quantityInStock; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getSkuCode() { return skuCode; }
+    public void setSkuCode(String skuCode) { this.skuCode = skuCode; }
 
     public String getAdditionalImageUrls() { return additionalImageUrls; }
     public void setAdditionalImageUrls(String additionalImageUrls) { this.additionalImageUrls = additionalImageUrls; }
@@ -92,8 +86,4 @@ public class ShoeItem {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-
-    public boolean isInStock() {
-        return quantityInStock != null && quantityInStock > 0;
-    }
 }
