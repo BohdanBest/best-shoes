@@ -577,12 +577,6 @@ main > p {
     gap: 30px;
 }
 
-.form-section {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 5px;
-}
-
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -590,6 +584,51 @@ main > p {
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+textarea {
+    height: 100px;
+}
+.btn {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn[type="submit"] {
+    background-color: #940a0a;
+    color: white;
+}
+.btn.save{
+    background-color: #00bf2f;
+    color: white;
+    padding: 10px 20px;
+}
+.btn.cancel {
+    background-color: #940a0a;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+}
+.error-message {
+    color: red;
+    margin-bottom: 15px;
 }
 
 .toast {
@@ -607,4 +646,15 @@ main > p {
 }
 .toast.show {
     opacity: 1;
+}
+
+.edit-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #bf1313;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
 }

@@ -51,6 +51,9 @@ content = @`
                                     <span class="status-text">Currently out of stock</span>
                                 </p>
                             @endif
+                            @if(authFacade.isAuthenticated() && authFacade.isAdmin())
+                                <a href="/shoe-item/edit?id=${shoe.getId()}" class="edit-button">Edit</a>
+                            @endif
                         </div>
 
                         <div class="actions">

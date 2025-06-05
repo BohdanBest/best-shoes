@@ -12,8 +12,9 @@ public class ShoeItemDTO {
     private String imageUrl;
     private boolean inStock;
     private String description;
+    private Integer quantityInStock;
 
-    public ShoeItemDTO(Long id, String shoeModelName, String brandName, String categoryName, String size, String color, Double price, String imageUrl, boolean inStock, String description) {
+    public ShoeItemDTO(Long id, String shoeModelName, String brandName, String categoryName, String size, String color, Double price, String imageUrl, boolean inStock, String description, Integer quantityInStock) {
         this.id = id;
         this.shoeModelName = shoeModelName;
         this.brandName = brandName;
@@ -24,6 +25,7 @@ public class ShoeItemDTO {
         this.imageUrl = imageUrl;
         this.inStock = inStock;
         this.description = description;
+        this.quantityInStock = quantityInStock;
     }
 
     public Long getId() { return id; }
@@ -55,4 +57,6 @@ public class ShoeItemDTO {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+    public Integer getQuantityInStock() { return quantityInStock; }
+    public void setQuantityInStock(Integer quantityInStock) { this.quantityInStock = quantityInStock; }
 }
