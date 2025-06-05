@@ -48,19 +48,15 @@ public class ShoeController {
     public ModelAndView home(@RequestParam(required = false) String success) {
         ModelAndView modelAndView = new ModelAndView("pages/index");
 
-        Iterable<ShoeItem> shoeItemsIterable = shoeItemRepository.findAll();
-
-        List<ShoeItemDTO> shoeItems = StreamSupport.stream(shoeItemsIterable.spliterator(), false)
+        List<ShoeItemDTO> inStockShoeItems = shoeItemRepository.findAllInStock()
+                .stream()
                 .map(this::convertToDTO)
                 .toList();
 
-        List<ShoeItemDTO> inStockShoeItems = shoeItems.stream()
-                .filter(ShoeItemDTO::isInStock)
-                .collect(Collectors.toList());
-
-        List<ShoeItemDTO> outOfStockShoeItems = shoeItems.stream()
-                .filter(shoe -> !shoe.isInStock())
-                .collect(Collectors.toList());
+        List<ShoeItemDTO> outOfStockShoeItems = shoeItemRepository.findAllOutOfStock()
+                .stream()
+                .map(this::convertToDTO)
+                .toList();
 
         modelAndView.addObject("inStockShoeItems", inStockShoeItems);
         modelAndView.addObject("outOfStockShoeItems", outOfStockShoeItems);
